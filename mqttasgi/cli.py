@@ -4,6 +4,7 @@ import os
 from .server import Server
 from .utils import get_application
 from dotenv import load_dotenv
+from paho.mqtt import client as mqtt
 
 load_dotenv()
 
@@ -15,6 +16,16 @@ def bool_type_converter(arg):
     elif arg.lower() == "false":
         return False
     raise ValueError()
+
+def protocol_type_converter(arg):
+    protocols = {
+        'v3.1': mqtt.MQTTv31,
+        'v3.1.1': mqtt.MQTTv311,
+        'v5': mqtt.MQTTv5
+    }
+    if arg in protocols:
+        return protocols[arg]
+    raise ValueError(f"Unknown protocol version: {arg}")
 
 
 def main():
@@ -46,6 +57,9 @@ def main():
                         default=os.environ.get("MQTT_TRANSPORT", "tcp"))
     parser.add_argument("-r", "--retries", help="Maximum number of connection retries after unexpected disconnect (0 to always try to reconnect)",
                         default=os.environ.get("MQTT_RETRIES", 3), type=int)
+    
+    parser.add_argument("-R", "--protocol", help="MQTT protocol version (v3.1, v3.1.1, v5)", type=protocol_type_converter,
+                        default=protocol_type_converter(os.environ.get("MQTT_PROTOCOL", "v3.1.1")))
 
     parser.add_argument("application",
                         help=("The ASGI application instance to use as "
@@ -77,7 +91,8 @@ def main():
         ca_cert=args.cacert,
         connect_max_retries=args.retries,
         use_ssl=args.use_ssl,
-        transport = args.transport
+        transport = args.transport,
+        protocol=args.protocol,
     )
 
     server.run()
