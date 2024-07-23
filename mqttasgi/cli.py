@@ -59,7 +59,7 @@ def main():
                         default=os.environ.get("MQTT_RETRIES", 3), type=int)
     
     parser.add_argument("-R", "--protocol", help="MQTT protocol version (v3.1, v3.1.1, v5)", type=protocol_type_converter,
-                        default=protocol_type_converter(os.environ.get("MQTT_PROTOCOL", "v3.1.1")))
+                        default=protocol_type_converter(os.environ.get("MQTT_PROTOCOL", "v311")))
 
     parser.add_argument("application",
                         help=("The ASGI application instance to use as "
@@ -92,7 +92,7 @@ def main():
         connect_max_retries=args.retries,
         use_ssl=args.use_ssl,
         transport = args.transport,
-        protoco l= args.protocol,
+        protocol = args.protocol,
     )
 
     server.run()
