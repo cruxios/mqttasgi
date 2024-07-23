@@ -458,7 +458,4 @@ class Server(object):
         finally:
             loop.run_until_complete(loop.shutdown_asyncgens())
             loop.close()
-            if self.protocol == mqtt.MQTTv5:
-                self.client.disconnect(None, None)
-            else:
-                self.client.disconnect()
+            self.client.disconnect()
