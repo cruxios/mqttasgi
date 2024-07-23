@@ -25,6 +25,10 @@ Mqttasgi provides a cli interface to run the protocol server.
 ```bash
 mqttasgi -H localhost -p 1883 my_application.asgi:application
 ```
+To speficify MQTT version (v31, v311, v5),by default V3.1.1
+```bash
+mqttasgi -H localhost -p 1883  -R v5 my_application.asgi:application
+
 Parameters:
 | Parameter   | Explanation      | Environment variable | Default |
 |-------------|------------------|:--------------------:|:--------------------:|
