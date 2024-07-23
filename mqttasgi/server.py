@@ -39,10 +39,18 @@ class Server(object):
         #    "host": self.host,
         #    "port": self.port,
         #}, clean_session=clean_session)
-        self.client = mqtt.Client(client_id=client_id, transport=transport, userdata={
+        if protocol == mqtt.MQTTv5:
+            self.client = mqtt.Client(client_id=client_id, transport=transport, userdata={
             "server": self,
             "host": host,
             "port": port,
+        }, protocol=protocol)
+        
+        else:
+            self.client = mqtt.Client(client_id=client_id, transport=transport, userdata={
+                "server": self,
+                "host": host,
+                "port": port,
         }, clean_session=clean_session, protocol=protocol)
 
         self.client.enable_logger(self.log)
