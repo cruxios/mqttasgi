@@ -9,6 +9,7 @@ mqttasgi is an ASGI protocol server that implements a complete interface for MQT
 - Full testing consumer to enable TDD.
 - Lightweight.
 - Django 3.x, 4.x / Channels 3.x support
+- Support MQTT V3, V3.11(default) and V5
 
 # Instalation
 To install mqttasgi for Django 3.x, 4.x
@@ -39,6 +40,7 @@ Parameters:
 | -S / --cacert | TLS CA Certificate | TLS_CA |  |
 | -SSL / --use-ssl | Use ssl (without certificate authentication) | MQTT_USE_SSL | False |
 | -T / --transport | Transport type (tcp or websockets) | MQTT_TRANSPORT | tcp |
+| -R / --protocol | protocol | v3 or v3.11 or v5|
 | -r / --retries | Num. retries on disconnect | MQTT_RETRIES | 3 |
 | Last argument | ASGI Apllication |  | |
 
