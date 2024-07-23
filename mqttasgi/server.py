@@ -62,10 +62,12 @@ class Server(object):
         self.key = key
         self.ca_cert = ca_cert
         self.use_ssl = use_ssl
-        self.client.on_connect = self._on_connect
+        
         if protocol == mqtt.MQTTv5:
+            self.client.on_connect = self._on_connect_v5
             self.client.on_disconnect = self._on_disconnect_v5
         else:
+            self.client.on_connect = self._on_connect
             self.client.on_disconnect = self._on_disconnect
         self.connect_max_retries = connect_max_retries
         self.client.on_message = lambda client, userdata, message: \
@@ -93,13 +95,28 @@ class Server(object):
                 self.log.error("[mqttasgi][mqtt][connect] - Cant add to queue"
                                "of {}".format(app_id))
                 self.log.exception(e)
+    
+    def _on_connect_v5(self, client, userdata, flags, rc=None, properties=None):
+        self.log.info("[mqttasgi][connection][connected] - Connected to {}:{}".format(self.host, self.port))
+        for app_id in self.application_data:
+            try:
+                self.application_data[app_id]['receive'].put_nowait({
+                    'type': 'mqtt.connect',
+                    'mqtt': {
+
+                    }
+                })
+            except Exception as e:
+                self.log.error("[mqttasgi][mqtt][connect] - Cant add to queue"
+                               "of {}".format(app_id))
+                self.log.exception(e)
 
     def _on_disconnect(self, client, userdata, rc):
         self.log.warning("[mqttasgi][connection][disconnected] - Disconnected from {}:{}".format(self.host, self.port))
         if not self.stop:
             self._handle_reconnect()
     
-    def _on_disconnect_v5(self, client, userdata, rc, properties=None):
+    def _on_disconnect_v5(self, client, userdata, reason_code=None, properties=None):
         self.log.warning("[mqttasgi][connection][disconnected] - Disconnected from {}:{}".format(self.host, self.port))
         if not self.stop:
             self._handle_reconnect()
