@@ -40,7 +40,7 @@ Parameters:
 | -S / --cacert | TLS CA Certificate | TLS_CA |  |
 | -SSL / --use-ssl | Use ssl (without certificate authentication) | MQTT_USE_SSL | False |
 | -T / --transport | Transport type (tcp or websockets) | MQTT_TRANSPORT | tcp |
-| -R / --protocol | protocol (v31 or v311 or v5)| | V311 |
+| -R / --protocol | protocol (v31 or v311 or v5)| | v311 |
 | -r / --retries | Num. retries on disconnect | MQTT_RETRIES | 3 |
 | Last argument | ASGI Apllication |  | |
 
