@@ -63,7 +63,10 @@ class Server(object):
         self.ca_cert = ca_cert
         self.use_ssl = use_ssl
         self.client.on_connect = self._on_connect
-        self.client.on_disconnect = self._on_disconnect
+        if protocol == mqtt.MQTTv5:
+            self.client.on_disconnect = self._on_disconnect_v5
+        else:
+            self.client.on_disconnect = self._on_disconnect
         self.connect_max_retries = connect_max_retries
         self.client.on_message = lambda client, userdata, message: \
             self._mqtt_receive(-1, message.topic, message.payload, message.qos)
@@ -92,6 +95,11 @@ class Server(object):
                 self.log.exception(e)
 
     def _on_disconnect(self, client, userdata, rc):
+        self.log.warning("[mqttasgi][connection][disconnected] - Disconnected from {}:{}".format(self.host, self.port))
+        if not self.stop:
+            self._handle_reconnect()
+    
+    def _on_disconnect_v5(self, rc=None, properties=None):
         self.log.warning("[mqttasgi][connection][disconnected] - Disconnected from {}:{}".format(self.host, self.port))
         if not self.stop:
             self._handle_reconnect()
