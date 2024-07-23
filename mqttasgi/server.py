@@ -99,7 +99,7 @@ class Server(object):
         if not self.stop:
             self._handle_reconnect()
     
-    def _on_disconnect_v5(self, rc=None, properties=None):
+    def _on_disconnect_v5(self, client, userdata, rc, properties=None):
         self.log.warning("[mqttasgi][connection][disconnected] - Disconnected from {}:{}".format(self.host, self.port))
         if not self.stop:
             self._handle_reconnect()
