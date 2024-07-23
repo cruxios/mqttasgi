@@ -14,7 +14,7 @@ mqttasgi is an ASGI protocol server that implements a complete interface for MQT
 # Instalation
 To install mqttasgi for Django 3.x, 4.x
 ```bash
-pip install mqttasgi
+pip install git+https://github.com/cruxios/mqttasgi.git
 ```
 
 **IMPORTANT NOTE:** If legacy support for Django 2.x is required install latest 0.x mqttasgi.
