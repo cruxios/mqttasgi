@@ -44,7 +44,7 @@ class Server(object):
             "server": self,
             "host": host,
             "port": port,
-        }, protocol=protocol)
+        }, clean_session=False, protocol=protocol)
         
         else:
             self.client = mqtt.Client(client_id=client_id, transport=transport, userdata={
