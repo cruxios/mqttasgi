@@ -92,7 +92,7 @@ def main():
         connect_max_retries=args.retries,
         use_ssl=args.use_ssl,
         transport = args.transport,
-        protocol=args.protocol,
+        protoco l= args.protocol,
     )
 
     server.run()
