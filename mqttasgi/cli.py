@@ -19,8 +19,8 @@ def bool_type_converter(arg):
 
 def protocol_type_converter(arg):
     protocols = {
-        'v3.1': mqtt.MQTTv31,
-        'v3.1.1': mqtt.MQTTv311,
+        'v31': mqtt.MQTTv31,
+        'v311': mqtt.MQTTv311,
         'v5': mqtt.MQTTv5
     }
     if arg in protocols:
