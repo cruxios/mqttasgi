@@ -34,6 +34,7 @@ class Server(object):
         self.port = port
         self.client_id = client_id
         self.transport = transport
+        self.protocol = protocol
         #self.client = mqtt.Client(client_id=self.client_id, transport=self.transport, userdata={
         #    "server": self,
         #    "host": self.host,
@@ -432,7 +433,7 @@ class Server(object):
         finally:
             loop.run_until_complete(loop.shutdown_asyncgens())
             loop.close()
-            if protocol == mqqt.MQTTv5:
+            if self.protocol == mqqt.MQTTv5:
                 self.client.disconnect(None, None)
             else:
                 self.client.disconnect()
